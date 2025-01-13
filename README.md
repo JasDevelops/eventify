@@ -18,7 +18,7 @@ Built using a **Test-Driven Development (TDD)** approach, Eventify ensures high-
 - **Responsive Design**: Works seamlessly across different devices (desktop, mobile, tablet).
 
 ## Architectural Diagram
-![Architectural Diagram] (public/assets/diagram-1.jpg)
+![Architectural Diagram](public/assets/diagram-1.jpg)
 
 ## User stories: Features & Scenarios (Gherkin)
 
