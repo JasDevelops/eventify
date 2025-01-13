@@ -17,6 +17,9 @@ Built using a **Test-Driven Development (TDD)** approach, Eventify ensures high-
 - **Serverless Backend**: No backend maintenance required, fully scalable, and cost-effective.
 - **Responsive Design**: Works seamlessly across different devices (desktop, mobile, tablet).
 
+## Architectural Diagram
+![Architectural Diagram] (public/diagram-1.jpg)
+
 ## User stories: Features & Scenarios (Gherkin)
 
 ### Feature 1: Filter Events By City
