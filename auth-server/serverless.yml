@@ -4,7 +4,7 @@ provider:
   name: aws
   runtime: nodejs18.x
   region: eu-central-1
-  timeout: 30
+  timeout: 29
   environment:
     CLIENT_ID: ${file(config.json):CLIENT_ID}
     CLIENT_SECRET: ${file(config.json):CLIENT_SECRET}
@@ -15,4 +15,10 @@ functions:
     events:
       - http:
           path: api/get-auth-url
+          method: get
+  getAccessToken:
+    handler: handler.getAccessToken
+    events:
+      - http:
+          path: api/token/{code}
           method: get
