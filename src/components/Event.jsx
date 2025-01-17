@@ -7,14 +7,21 @@ const Event = ({ event }) => {
 		return <p>No event data available</p>;
 	}
 
-	const formattedTime = new Date(event.start?.dateTime || event.created).toLocaleString();
+	const startTime =
+		event.start && event.start.dateTime
+			? new Date(event.start.dateTime).toLocaleString()
+			: 'Start time not available';
+	const endTime =
+		event.end && event.end.dateTime
+			? new Date(event.end.dateTime).toLocaleString()
+			: 'End time not available';
 
 	return (
 		<div>
 			<h2>{event.summary}</h2>
 			<p>Location: {event.location || 'No location provided'}</p>
-
-			<p>Created: {formattedTime}</p>
+			<p>Start: {startTime}</p>
+			<p>End: {endTime}</p>
 			<button
 				aria-label="More or Less info"
 				onClick={() => setShowDetails(!showDetails)}>

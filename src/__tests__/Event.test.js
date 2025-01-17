@@ -18,7 +18,13 @@ describe('<Event /> component', () => {
 	});
 
 	test('renders start time', () => {
-		expect(EventComponent.queryByText(mockData[0].created)).toBeInTheDocument;
+		const formattedTime = new Date(mockData[0].start.dateTime).toLocaleString();
+		expect(EventComponent.queryByText(`Start: ${formattedTime}`)).toBeInTheDocument();
+	});
+
+	test('renders end time', () => {
+		const formattedEndTime = new Date(mockData[0].end.dateTime).toLocaleString();
+		expect(EventComponent.queryByText(`End: ${formattedEndTime}`)).toBeInTheDocument();
 	});
 
 	test('renders location', () => {
@@ -48,11 +54,9 @@ describe('<Event /> component', () => {
 	test('user clicks "Less info" button', async () => {
 		const user = userEvent.setup();
 
-		// Click "More info button first
 		const showDetailButton = EventComponent.queryByText('More info');
 		await user.click(showDetailButton);
 
-		// Then click "Less info" button
 		const hideDetailButton = EventComponent.queryByText('Less info');
 		await user.click(hideDetailButton);
 
