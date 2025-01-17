@@ -37,15 +37,15 @@ Built using a **Test-Driven Development (TDD)** approach, Eventify ensures high-
 
 #### Scenario 2: Suggestions for cities
 
-**Given** I am on the search bar,  
-**When** I type a city name,  
+**Given** I am on the main page,  
+**When** I type a city name in the textbox,  
 **Then** I should see a list of city suggestions.
 
 #### Scenario 3: Select a city
 
-**Given** I have a list of city suggestions,  
+**Given** I was typing “Berlin” in the city textbox AND the list of suggested cities is showing,  
 **When** I select a city from the suggestions,  
-**Then** I should see the events filtered by the selected city.
+**Then** my city should be changed to that city (i.e., “Berlin, Germany”) AND I should receive a list of upcoming events in that city.
 
 ### Feature 2: Show/Hide Event Details
 
