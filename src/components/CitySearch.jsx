@@ -4,16 +4,19 @@ const CitySearch = ({ allLocations, onCityChange }) => {
 	const [showSuggestions, setShowSuggestions] = useState(false);
 	const [query, setQuery] = useState('');
 	const [suggestions, setSuggestions] = useState([]);
-
 	const locations = Array.isArray(allLocations) ? allLocations : [];
-
 	const handleInputChanged = (event) => {
 		const value = event.target.value;
-		const filteredLocations = allLocations
-			? allLocations.filter((location) => {
-					return location.toUpperCase().includes(value.toUpperCase());
-				})
-			: [];
+		let filteredLocations = [];
+
+		if (value) {
+			filteredLocations = allLocations.filter((location) =>
+				location.toUpperCase().includes(value.toUpperCase())
+			);
+		}
+		if (value === '') {
+			filteredLocations = [];
+		}
 
 		setQuery(value);
 		setSuggestions(filteredLocations);
@@ -22,9 +25,16 @@ const CitySearch = ({ allLocations, onCityChange }) => {
 
 	const handleItemClicked = (event) => {
 		const value = event.target.textContent;
-		setQuery(value);
-		setShowSuggestions(false);
-		onCityChange(value);
+
+		if (value === 'See all cities') {
+			setQuery('');
+			setShowSuggestions(false);
+			onCityChange('');
+		} else {
+			setQuery(value);
+			setShowSuggestions(false);
+			onCityChange(value);
+		}
 	};
 
 	useEffect(() => {
@@ -45,15 +55,13 @@ const CitySearch = ({ allLocations, onCityChange }) => {
 			/>
 			{showSuggestions && (
 				<ul className="suggestions">
-					{suggestions.map((suggestion) => {
-						return (
-							<li
-								onClick={handleItemClicked}
-								key={suggestion}>
-								{suggestion}
-							</li>
-						);
-					})}
+					{suggestions.map((suggestion) => (
+						<li
+							onClick={handleItemClicked}
+							key={suggestion}>
+							{suggestion}
+						</li>
+					))}
 					<li
 						key="See all cities"
 						onClick={handleItemClicked}>

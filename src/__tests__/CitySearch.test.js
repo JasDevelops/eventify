@@ -60,4 +60,58 @@ describe('<CitySearch /> component', () => {
 		await user.click(BerlinGermanySuggestion);
 		expect(cityTextBox).toHaveValue(BerlinGermanySuggestion.textContent);
 	});
+
+	test('clears query and hides suggestions when "See all cities" is clicked', async () => {
+		const user = userEvent.setup();
+		const cityTextBox = CitySearchComponent.queryByRole('textbox');
+		await user.type(cityTextBox, 'Berlin');
+
+		const seeAllCitiesButton = CitySearchComponent.queryAllByRole('listitem')[1];
+		await user.click(seeAllCitiesButton);
+
+		expect(cityTextBox).toHaveValue('');
+
+		const suggestionList = CitySearchComponent.queryByRole('list');
+		expect(suggestionList).not.toBeInTheDocument();
+	});
+
+	test('sets the query and hides suggestions when a city is clicked', async () => {
+		const user = userEvent.setup();
+		const cityTextBox = CitySearchComponent.queryByRole('textbox');
+		await user.type(cityTextBox, 'Berlin');
+
+		const BerlinGermanySuggestion = CitySearchComponent.queryAllByRole('listitem')[0];
+		await user.click(BerlinGermanySuggestion);
+
+		expect(cityTextBox).toHaveValue('Berlin, Germany');
+
+		const suggestionList = CitySearchComponent.queryByRole('list');
+		expect(suggestionList).not.toBeInTheDocument();
+	});
+	test('filters locations when input value changes', async () => {
+		const user = userEvent.setup();
+		const cityTextBox = CitySearchComponent.queryByRole('textbox');
+
+		await user.type(cityTextBox, 'Ber');
+		const suggestions = CitySearchComponent.container.querySelectorAll('li');
+		expect(suggestions).toHaveLength(2);
+		expect(suggestions[0].textContent).toBe('Berlin, Germany');
+		expect(suggestions[1].textContent).toBe('See all cities');
+	});
+
+	test('resets suggestions when input is cleared', async () => {
+		const user = userEvent.setup();
+		const cityTextBox = CitySearchComponent.queryByRole('textbox');
+
+		await user.type(cityTextBox, 'Berlin');
+		const suggestions = CitySearchComponent.container.querySelectorAll('li');
+		expect(suggestions).toHaveLength(2);
+
+		await user.clear(cityTextBox);
+		await userEvent.click(document.body);
+
+		const emptySuggestions = CitySearchComponent.container.querySelectorAll('li');
+		expect(emptySuggestions).toHaveLength(1);
+		expect(emptySuggestions[0].textContent).toBe('See all cities');
+	});
 });

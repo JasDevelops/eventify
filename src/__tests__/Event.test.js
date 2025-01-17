@@ -22,13 +22,30 @@ describe('<Event /> component', () => {
 		expect(EventComponent.queryByText(`Start: ${formattedTime}`)).toBeInTheDocument();
 	});
 
+	test('renders "Start time not available" when start dateTime is missing', () => {
+		const eventWithoutStart = { ...mockData[0], start: {} };
+		const { queryByText } = render(<Event event={eventWithoutStart} />);
+		expect(queryByText('Start: Start time not available')).toBeInTheDocument();
+	});
 	test('renders end time', () => {
 		const formattedEndTime = new Date(mockData[0].end.dateTime).toLocaleString();
 		expect(EventComponent.queryByText(`End: ${formattedEndTime}`)).toBeInTheDocument();
 	});
 
+	test('renders "End time not available" when end dateTime is missing', () => {
+		const eventWithoutEnd = { ...mockData[0], end: {} };
+		const { queryByText } = render(<Event event={eventWithoutEnd} />);
+		expect(queryByText('End: End time not available')).toBeInTheDocument();
+	});
+
 	test('renders location', () => {
 		expect(EventComponent.queryByText(mockData[0].location)).toBeInTheDocument;
+	});
+
+	test('renders fallback location message when location is missing', () => {
+		const eventWithoutLocation = { ...mockData[0], location: null };
+		const { queryByText } = render(<Event event={eventWithoutLocation} />);
+		expect(queryByText('Location: No location provided')).toBeInTheDocument();
 	});
 
 	test('renders "More info" button', () => {
@@ -63,6 +80,7 @@ describe('<Event /> component', () => {
 		const eventDetails = EventComponent.container.querySelector('.eventDetails');
 		expect(eventDetails).not.toBeInTheDocument();
 	});
+
 	test('renders fallback message when event is null', () => {
 		const { getByText } = render(<Event event={null} />);
 		expect(getByText('No event data available')).toBeInTheDocument();
