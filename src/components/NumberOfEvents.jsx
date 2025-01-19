@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 
 const NumberOfEvents = ({ updateNumberOfEvents, currentEventCount }) => {
 	const [eventCount, setEventCount] = useState(currentEventCount || 32);
@@ -31,6 +32,11 @@ const NumberOfEvents = ({ updateNumberOfEvents, currentEventCount }) => {
 			<button onClick={handleSubmit}>Submit</button>
 		</div>
 	);
+};
+
+NumberOfEvents.propTypes = {
+	updateNumberOfEvents: PropTypes.func.isRequired,
+	currentEventCount: PropTypes.number,
 };
 
 export default NumberOfEvents;

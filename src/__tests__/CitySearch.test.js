@@ -1,4 +1,3 @@
-import React from 'react';
 import { render } from '@testing-library/react';
 import CitySearch from '../components/CitySearch';
 import userEvent from '@testing-library/user-event';
@@ -19,18 +18,18 @@ describe('<CitySearch /> component', () => {
 		);
 	});
 
-	test('renders text input', () => {
+	it('renders text input', () => {
 		const cityTextBox = CitySearchComponent.queryByRole('textbox');
 		expect(cityTextBox).toBeInTheDocument();
 		expect(cityTextBox).toHaveClass('city');
 	});
 
-	test('suggestions list is hidden by default', () => {
+	it('suggestions list is hidden by default', () => {
 		const suggestionList = CitySearchComponent.queryByRole('list');
 		expect(suggestionList).not.toBeInTheDocument();
 	});
 
-	test('renders a list of suggestions when city textbox gains focus', async () => {
+	it('renders a list of suggestions when city textbox gains focus', async () => {
 		const user = userEvent.setup();
 		const cityTextBox = CitySearchComponent.queryByRole('textbox');
 		await user.click(cityTextBox);
@@ -39,7 +38,7 @@ describe('<CitySearch /> component', () => {
 		expect(suggestionList).toHaveClass('suggestions');
 	});
 
-	test('updates list of suggestions correctly when user types in city textbox', async () => {
+	it('updates list of suggestions correctly when user types in city textbox', async () => {
 		const user = userEvent.setup();
 		const cityTextBox = CitySearchComponent.queryByRole('textbox');
 		await user.type(cityTextBox, 'Berlin');
@@ -51,7 +50,7 @@ describe('<CitySearch /> component', () => {
 		expect(suggestions[1].textContent).toBe('See all cities');
 	});
 
-	test('renders the suggestions text in the textbox upon clicking on the suggestion', async () => {
+	it('renders the suggestions text in the textbox upon clicking on the suggestion', async () => {
 		const user = userEvent.setup();
 		const cityTextBox = CitySearchComponent.queryByRole('textbox');
 		await user.type(cityTextBox, 'Berlin');
@@ -61,7 +60,7 @@ describe('<CitySearch /> component', () => {
 		expect(cityTextBox).toHaveValue(BerlinGermanySuggestion.textContent);
 	});
 
-	test('clears query and hides suggestions when "See all cities" is clicked', async () => {
+	it('clears query and hides suggestions when "See all cities" is clicked', async () => {
 		const user = userEvent.setup();
 		const cityTextBox = CitySearchComponent.queryByRole('textbox');
 		await user.type(cityTextBox, 'Berlin');
@@ -75,7 +74,7 @@ describe('<CitySearch /> component', () => {
 		expect(suggestionList).not.toBeInTheDocument();
 	});
 
-	test('sets the query and hides suggestions when a city is clicked', async () => {
+	it('sets the query and hides suggestions when a city is clicked', async () => {
 		const user = userEvent.setup();
 		const cityTextBox = CitySearchComponent.queryByRole('textbox');
 		await user.type(cityTextBox, 'Berlin');
@@ -88,7 +87,7 @@ describe('<CitySearch /> component', () => {
 		const suggestionList = CitySearchComponent.queryByRole('list');
 		expect(suggestionList).not.toBeInTheDocument();
 	});
-	test('filters locations when input value changes', async () => {
+	it('filters locations when input value changes', async () => {
 		const user = userEvent.setup();
 		const cityTextBox = CitySearchComponent.queryByRole('textbox');
 
@@ -99,7 +98,7 @@ describe('<CitySearch /> component', () => {
 		expect(suggestions[1].textContent).toBe('See all cities');
 	});
 
-	test('resets suggestions when input is cleared', async () => {
+	it('resets suggestions when input is cleared', async () => {
 		const user = userEvent.setup();
 		const cityTextBox = CitySearchComponent.queryByRole('textbox');
 

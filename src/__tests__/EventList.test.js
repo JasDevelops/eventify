@@ -1,4 +1,3 @@
-import React from 'react';
 import { render } from '@testing-library/react';
 import EventList from '../components/EventList';
 import { getEvents } from '../api';
@@ -12,11 +11,11 @@ describe('<EventList /> component', () => {
 		EventListComponent = render(<EventList events={allEvents} />);
 	});
 
-	test('has an element with "list" role', () => {
+	it('has an element with "list" role', () => {
 		expect(EventListComponent.queryByRole('list')).toBeInTheDocument(); //
 	});
 
-	test('renders correct number of events', async () => {
+	it('renders correct number of events', async () => {
 		const allEvents = await getEvents();
 
 		EventListComponent.rerender(<EventList events={allEvents} />);

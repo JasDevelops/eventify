@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import PropTypes from 'prop-types';
 
 const Event = ({ event }) => {
 	const [showDetails, setShowDetails] = useState(false);
@@ -30,6 +31,20 @@ const Event = ({ event }) => {
 			{showDetails && <p className="eventDetails">{event.description}</p>}
 		</div>
 	);
+};
+
+Event.propTypes = {
+	event: PropTypes.shape({
+		summary: PropTypes.string.isRequired,
+		location: PropTypes.string,
+		start: PropTypes.shape({
+			dateTime: PropTypes.string,
+		}),
+		end: PropTypes.shape({
+			dateTime: PropTypes.string,
+		}),
+		description: PropTypes.string,
+	}),
 };
 
 export default Event;

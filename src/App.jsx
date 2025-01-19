@@ -1,6 +1,6 @@
-import React from 'react';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { getEvents, extractLocations } from './api';
+
 import CitySearch from './components/CitySearch';
 import EventList from './components/EventList';
 import NumberOfEvents from './components/NumberOfEvents';
@@ -18,31 +18,35 @@ const App = () => {
 			setLoading(true);
 			const allEvents = await getEvents();
 			setEvents(allEvents);
-
 			const allLocations = extractLocations(allEvents);
 			setLocations(allLocations);
 			setLoading(false);
 			setFilteredEvents(allEvents.slice(0, eventCount));
 		};
 		fetchData();
-	}, []);
+	}, [eventCount]);
+
+	const filterEvents = useCallback(
+		(city, count) => {
+			let filtered = events;
+
+			if (city !== '') {
+				filtered = events.filter((event) =>
+					event.location.toUpperCase().includes(city.toUpperCase())
+				);
+			}
+			setFilteredEvents(filtered.slice(0, count));
+		},
+		[events]
+	);
 
 	useEffect(() => {
 		filterEvents(currentCity, eventCount);
-	}, [events, currentCity, eventCount]);
+	}, [events, currentCity, eventCount, filterEvents]);
 
-	const filterEvents = (city, count) => {
-		let filtered = events;
-
-		if (city !== '') {
-			filtered = events.filter((event) =>
-				event.location.toUpperCase().includes(city.toUpperCase())
-			);
-		}
-		setFilteredEvents(filtered.slice(0, count));
-	};
 	const handleCityChange = (city) => {
 		setCurrentCity(city);
+		filterEvents(city, eventCount);
 
 		let filtered = events;
 		if (city !== '') {

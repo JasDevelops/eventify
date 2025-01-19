@@ -1,4 +1,3 @@
-import React from 'react';
 import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import NumberOfEvents from '../components/NumberOfEvents';
@@ -10,7 +9,7 @@ describe('<NumberOfEvents />', () => {
 		updateNumberOfEvents = jest.fn();
 	});
 
-	test('contains a textbox with the correct role', () => {
+	it('contains a textbox with the correct role', () => {
 		const { container } = render(
 			<NumberOfEvents
 				updateNumberOfEvents={updateNumberOfEvents}
@@ -21,7 +20,7 @@ describe('<NumberOfEvents />', () => {
 		expect(inputElement).toHaveAttribute('role', 'textbox');
 	});
 
-	test('default value is 32', () => {
+	it('default value is 32', () => {
 		const { container } = render(
 			<NumberOfEvents
 				updateNumberOfEvents={updateNumberOfEvents}
@@ -32,7 +31,7 @@ describe('<NumberOfEvents />', () => {
 		expect(inputElement.value).toBe('32');
 	});
 
-	test('value changes when user types in it and submits', async () => {
+	it('value changes when user types in it and submits', async () => {
 		const { container } = render(<NumberOfEvents updateNumberOfEvents={updateNumberOfEvents} />);
 		const user = userEvent.setup();
 		const inputElement = container.firstChild.querySelector('#numberOfEvents');
@@ -49,7 +48,7 @@ describe('<NumberOfEvents />', () => {
 		expect(updateNumberOfEvents).toHaveBeenCalledTimes(1);
 	});
 
-	test('updates event count when currentEventCount prop changes', () => {
+	it('updates event count when currentEventCount prop changes', () => {
 		const { rerender, container } = render(
 			<NumberOfEvents
 				updateNumberOfEvents={updateNumberOfEvents}

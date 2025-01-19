@@ -1,10 +1,16 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
+import PropTypes from 'prop-types';
 
 const CitySearch = ({ allLocations, onCityChange }) => {
 	const [showSuggestions, setShowSuggestions] = useState(false);
 	const [query, setQuery] = useState('');
 	const [suggestions, setSuggestions] = useState([]);
-	const locations = Array.isArray(allLocations) ? allLocations : [];
+
+	const locations = useMemo(
+		() => (Array.isArray(allLocations) ? allLocations : []),
+		[allLocations]
+	);
+
 	const handleInputChanged = (event) => {
 		const value = event.target.value;
 		let filteredLocations = [];
@@ -71,6 +77,11 @@ const CitySearch = ({ allLocations, onCityChange }) => {
 			)}
 		</div>
 	);
+};
+
+CitySearch.propTypes = {
+	allLocations: PropTypes.arrayOf(PropTypes.string).isRequired,
+	onCityChange: PropTypes.func.isRequired,
 };
 
 export default CitySearch;
