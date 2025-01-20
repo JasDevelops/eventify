@@ -1,7 +1,9 @@
-import { render } from '@testing-library/react';
-import CitySearch from '../components/CitySearch';
+import { render, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { extractLocations, getEvents } from '../api';
+
+import App from '../App';
+import CitySearch from '../components/CitySearch';
 
 describe('<CitySearch /> component', () => {
 	let CitySearchComponent;
@@ -112,5 +114,22 @@ describe('<CitySearch /> component', () => {
 		const emptySuggestions = CitySearchComponent.container.querySelectorAll('li');
 		expect(emptySuggestions).toHaveLength(1);
 		expect(emptySuggestions[0].textContent).toBe('See all cities');
+	});
+});
+describe('<CitySearch /> integration', () => {
+	it('renders suggestions list when the app is rendered.', async () => {
+		const user = userEvent.setup();
+		const AppComponent = render(<App />);
+		const AppDOM = AppComponent.container.firstChild;
+
+		const CitySearchDOM = AppDOM.querySelector('#city-search');
+		const cityTextBox = within(CitySearchDOM).queryByRole('textbox');
+		await user.click(cityTextBox);
+
+		const allEvents = await getEvents();
+		const allLocations = extractLocations(allEvents);
+
+		const suggestionListItems = within(CitySearchDOM).queryAllByRole('listitem');
+		expect(suggestionListItems).toHaveLength(allLocations.length + 1);
 	});
 });
