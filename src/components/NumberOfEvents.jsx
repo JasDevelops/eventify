@@ -20,16 +20,29 @@ const NumberOfEvents = ({ updateNumberOfEvents, currentEventCount }) => {
 	};
 
 	return (
-		<div>
-			<label htmlFor="numberOfEvents">Number of Events</label>
-			<input
-				type="number"
-				id="numberOfEvents"
-				value={eventCount}
-				onChange={handleInputChange}
-				role="textbox"
-			/>
-			<button onClick={handleSubmit}>Submit</button>
+		<div className="filter-item">
+			<label
+				htmlFor="numberOfEvents"
+				className="numberOfEvents-label">
+				Number of Events
+			</label>
+			<div className="inputAndSubmit">
+				<input
+					type="text"
+					id="numberOfEvents"
+					value={eventCount}
+					onChange={handleInputChange}
+					role="textbox"
+					aria-label="Number of events"
+					className="numberOfEvents-input"
+				/>
+				<button
+					onClick={handleSubmit}
+					className="numberOfEvents-submit"
+					aria-label="Submit number of events">
+					Submit
+				</button>{' '}
+			</div>
 		</div>
 	);
 };

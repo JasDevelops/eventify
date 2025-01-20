@@ -31,16 +31,9 @@ const CitySearch = ({ allLocations, onCityChange }) => {
 
 	const handleItemClicked = (event) => {
 		const value = event.target.textContent;
-
-		if (value === 'See all cities') {
-			setQuery('');
-			setShowSuggestions(false);
-			onCityChange('');
-		} else {
-			setQuery(value);
-			setShowSuggestions(false);
-			onCityChange(value);
-		}
+		setQuery(value === 'See all cities' ? '' : value);
+		setShowSuggestions(false);
+		onCityChange(value === 'See all cities' ? '' : value);
 	};
 
 	useEffect(() => {
@@ -50,31 +43,43 @@ const CitySearch = ({ allLocations, onCityChange }) => {
 	}, [locations]);
 
 	return (
-		<div id="city-search">
-			<input
-				type="text"
-				className="city"
-				placeholder="Search for a city"
-				value={query}
-				onFocus={() => setShowSuggestions(true)}
-				onChange={handleInputChanged}
-			/>
-			{showSuggestions && (
-				<ul className="suggestions">
-					{suggestions.map((suggestion) => (
+		<div
+			id="city-search"
+			className="filter-item">
+			<label
+				htmlFor="city"
+				className="city-label">
+				Search for a city
+			</label>
+			<div className="inputAndSubmit">
+				<input
+					type="text"
+					className="city"
+					placeholder="Start typing ..."
+					value={query}
+					onFocus={() => setShowSuggestions(true)}
+					onChange={handleInputChanged}
+					aria-label="Search for a city"
+				/>
+				{showSuggestions && (
+					<ul className="suggestions">
+						{suggestions.map((suggestion) => (
+							<li
+								onClick={handleItemClicked}
+								key={suggestion}
+								className="suggestion-item">
+								{suggestion}
+							</li>
+						))}
 						<li
+							key="See all cities"
 							onClick={handleItemClicked}
-							key={suggestion}>
-							{suggestion}
+							className="seeAllCities">
+							<strong>See all cities</strong>
 						</li>
-					))}
-					<li
-						key="See all cities"
-						onClick={handleItemClicked}>
-						<b>See all cities</b>
-					</li>
-				</ul>
-			)}
+					</ul>
+				)}
+			</div>
 		</div>
 	);
 };

@@ -5,6 +5,8 @@ import CitySearch from './components/CitySearch';
 import EventList from './components/EventList';
 import NumberOfEvents from './components/NumberOfEvents';
 
+import './App.css';
+
 const App = () => {
 	const [events, setEvents] = useState([]);
 	const [locations, setLocations] = useState([]);
@@ -73,14 +75,16 @@ const App = () => {
 	return (
 		<div className="App">
 			{loading && <p className="loading">Loading...</p>}
-			<CitySearch
-				allLocations={locations}
-				onCityChange={handleCityChange}
-			/>
-			<NumberOfEvents
-				currentEventCount={eventCount}
-				updateNumberOfEvents={handleNumberOfEventsChange}
-			/>
+			<div className="filter-container">
+				<CitySearch
+					allLocations={locations}
+					onCityChange={handleCityChange}
+				/>
+				<NumberOfEvents
+					currentEventCount={eventCount}
+					updateNumberOfEvents={handleNumberOfEventsChange}
+				/>
+			</div>
 			<EventList events={filteredEvents} />
 		</div>
 	);

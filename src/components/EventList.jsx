@@ -3,15 +3,17 @@ import PropTypes from 'prop-types';
 
 const EventList = ({ events }) => {
 	return (
-		<ul id="event-list">
-			{events.map((event) => (
-				<li
-					key={event.id}
-					className="event-item">
-					<Event event={event} />
-				</li>
-			))}
-		</ul>
+		<div className="event-container">
+			<ul id="event-list">
+				{events.map((event) => (
+					<li
+						key={event.id}
+						className="event-item">
+						<Event event={event} />
+					</li>
+				))}
+			</ul>
+		</div>
 	);
 };
 

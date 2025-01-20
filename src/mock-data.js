@@ -1,5 +1,3 @@
-// src/mock-data.js
-
 const mockData = [
 	{
 		kind: 'calendar#event',

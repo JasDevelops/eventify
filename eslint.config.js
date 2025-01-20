@@ -14,12 +14,16 @@ export default [
 			globals: {
 				...globals.browser,
 				...globals.node,
+				...globals.jest,
 				jest: true,
 				describe: true,
 				it: true,
 				test: true,
 				expect: true,
 				beforeEach: true,
+				afterEach: true,
+				beforeAll: true,
+				afterAll: true,
 			},
 			parserOptions: {
 				ecmaVersion: 'latest',

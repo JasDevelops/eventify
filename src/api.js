@@ -13,14 +13,14 @@ export const extractLocations = (events) => {
 	const locations = [...new Set(extractedLocations)];
 	return locations;
 };
-const checkToken = async (accessToken) => {
+export const checkToken = async (accessToken) => {
 	const response = await fetch(
 		`https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=${accessToken}`
 	);
 	const result = await response.json();
 	return result;
 };
-const removeQuery = () => {
+export const removeQuery = () => {
 	let newurl;
 	if (window.history.pushState && window.location.pathname) {
 		newurl = window.location.protocol + '//' + window.location.host + window.location.pathname;
@@ -30,16 +30,35 @@ const removeQuery = () => {
 		window.history.pushState('', '', newurl);
 	}
 };
-const getToken = async (code) => {
-	const encodeCode = encodeURIComponent(code);
-	const response = await fetch(
-		'https://2t7qhk7s68.execute-api.eu-central-1.amazonaws.com/dev/api/token' + '/' + encodeCode
-	);
-	const { access_token } = await response.json();
-	access_token && localStorage.setItem('access_token', access_token);
+export const getToken = async (code) => {
+	try {
+		const encodeCode = encodeURIComponent(code);
 
-	return access_token;
+		const response = await fetch(
+			`https://2t7qhk7s68.execute-api.eu-central-1.amazonaws.com/dev/api/token/${encodeCode}`
+		);
+
+		if (!response.ok) {
+			throw new Error(`HTTP error! Status: ${response.status}`);
+		}
+
+		const result = await response.json();
+		console.log('Fetch result:', result);
+
+		const { access_token } = result;
+
+		if (access_token) {
+			localStorage.setItem('access_token', access_token);
+		} else {
+			console.log('Access token is missing in response.');
+		}
+
+		return access_token;
+	} catch (error) {
+		console.error('Error fetching access token:', error);
+	}
 };
+
 export const getEvents = async () => {
 	if (window.location.href.startsWith('http://localhost')) {
 		return mockData;
@@ -71,7 +90,7 @@ export const getAccessToken = async () => {
 			);
 			const result = await response.json();
 			const { authUrl } = result;
-			return (window.location.href = authUrl);
+			window.location.href = authUrl;
 		}
 		return code && getToken(code);
 	}
