@@ -166,4 +166,20 @@ describe('<App /> integration', () => {
 			expect(event.textContent).toContain('Berlin, Germany');
 		});
 	});
+	it('updates the number of events when the user changes the number of events input', async () => {
+		const { container } = render(<App />);
+		const inputElement = container.querySelector('#numberOfEvents');
+		const submitButton = container.querySelector('button');
+
+		expect(inputElement.value).toBe('32');
+
+		await userEvent.clear(inputElement);
+		await userEvent.type(inputElement, 'backspace}{backspace}10');
+		await userEvent.click(submitButton);
+
+		await waitFor(() => {
+			const eventItems = container.querySelectorAll('.event-item');
+			expect(eventItems).toHaveLength(10);
+		});
+	});
 });
