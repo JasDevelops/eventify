@@ -8,4 +8,5 @@ module.exports = {
 	},
 	moduleFileExtensions: ['js', 'jsx'],
 	setupFilesAfterEnv: ['<rootDir>/setupTests.js'],
+	moduleDirectories: ['node_modules', 'src'],
 };

@@ -1,5 +1,7 @@
 import '@testing-library/jest-dom';
-import '@testing-library/jest-dom';
+import 'jest-localstorage-mock';
+import fetchMock from 'jest-fetch-mock';
+fetchMock.enableMocks();
 
 const MESSAGES_TO_IGNORE = [
 	'When testing, code that causes React state updates should be wrapped into act(...):',

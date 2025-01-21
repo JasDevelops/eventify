@@ -13,6 +13,29 @@ export const extractLocations = (events) => {
 	const locations = [...new Set(extractedLocations)];
 	return locations;
 };
+export const getToken = async (code) => {
+	try {
+		const encodeCode = encodeURIComponent(code);
+		const response = await fetch(
+			`https://2t7qhk7s68.execute-api.eu-central-1.amazonaws.com/dev/api/token/${encodeCode}`
+		);
+		if (!response.ok) {
+			throw new Error(`HTTP error! Status: ${response.status}`);
+		}
+		const result = await response.json();
+		const { access_token } = result;
+
+		if (access_token) {
+			localStorage.setItem('access_token', access_token);
+			return access_token;
+		} else {
+			throw new Error('Access token is missing in response.');
+		}
+	} catch (error) {
+		console.error('Error fetching access token:', error);
+		throw new Error('Error fetching access token');
+	}
+};
 export const checkToken = async (accessToken) => {
 	const response = await fetch(
 		`https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=${accessToken}`
@@ -30,34 +53,6 @@ export const removeQuery = () => {
 		window.history.pushState('', '', newurl);
 	}
 };
-export const getToken = async (code) => {
-	try {
-		const encodeCode = encodeURIComponent(code);
-
-		const response = await fetch(
-			`https://2t7qhk7s68.execute-api.eu-central-1.amazonaws.com/dev/api/token/${encodeCode}`
-		);
-
-		if (!response.ok) {
-			throw new Error(`HTTP error! Status: ${response.status}`);
-		}
-
-		const result = await response.json();
-		console.log('Fetch result:', result);
-
-		const { access_token } = result;
-
-		if (access_token) {
-			localStorage.setItem('access_token', access_token);
-		} else {
-			console.log('Access token is missing in response.');
-		}
-
-		return access_token;
-	} catch (error) {
-		console.error('Error fetching access token:', error);
-	}
-};
 
 export const getEvents = async () => {
 	if (window.location.href.startsWith('http://localhost')) {
@@ -68,12 +63,20 @@ export const getEvents = async () => {
 		removeQuery();
 		const url =
 			'https://2t7qhk7s68.execute-api.eu-central-1.amazonaws.com/dev/api/get-events' + '/' + token;
-		const response = await fetch(url);
-		const result = await response.json();
-		if (result) {
-			return result.events;
-		} else return null;
+		try {
+			const response = await fetch(url);
+			if (!response.ok) {
+				return [];
+			}
+			const result = await response.json();
+			return result.events || [];
+		} catch (error) {
+			console.error('Error fetching events:', error);
+
+			return [];
+		}
 	}
+	return [];
 };
 
 export const getAccessToken = async () => {
@@ -81,9 +84,9 @@ export const getAccessToken = async () => {
 	const tokenCheck = accessToken && (await checkToken(accessToken));
 
 	if (!accessToken || tokenCheck.error) {
-		await localStorage.removeItem('access_token');
+		localStorage.removeItem('access_token');
 		const searchParams = new URLSearchParams(window.location.search);
-		const code = await searchParams.get('code');
+		const code = searchParams.get('code');
 		if (!code) {
 			const response = await fetch(
 				'https://2t7qhk7s68.execute-api.eu-central-1.amazonaws.com/dev/api/get-auth-url'

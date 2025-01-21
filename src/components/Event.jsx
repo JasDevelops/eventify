@@ -19,10 +19,12 @@ const Event = ({ event }) => {
 
 	return (
 		<div>
-			<h2>{event.summary}</h2>
-			<p>Location: {event.location || 'No location provided'}</p>
-			<p>Start: {startTime}</p>
-			<p>End: {endTime}</p>
+			<div className="eventInfo">
+				<h2>{event.summary}</h2>
+				<p>Location: {event.location || 'No location provided'}</p>
+				<p>Start: {startTime}</p>
+				<p>End: {endTime}</p>
+			</div>
 			<button
 				aria-label="More or Less info"
 				onClick={() => setShowDetails(!showDetails)}>
