@@ -26,7 +26,9 @@ const Event = ({ event }) => {
 				<p>End: {endTime}</p>
 			</div>
 			<button
+				data-testid={`more-btn-${event.id}`}
 				aria-label="More or Less info"
+				className="more-btn"
 				onClick={() => setShowDetails(!showDetails)}>
 				{showDetails ? 'Less info' : 'More info'}
 			</button>
@@ -37,6 +39,7 @@ const Event = ({ event }) => {
 
 Event.propTypes = {
 	event: PropTypes.shape({
+		id: PropTypes.string.isRequired,
 		summary: PropTypes.string.isRequired,
 		location: PropTypes.string,
 		start: PropTypes.shape({
