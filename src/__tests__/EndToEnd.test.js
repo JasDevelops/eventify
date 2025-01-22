@@ -25,16 +25,15 @@ describe('show/hide an event details', () => {
 		const eventDetails = await page.$('.eventContainer .eventDetails');
 		expect(eventDetails).toBeNull();
 	});
-	/* 
+
 	test('User can expand an event to see details', async () => {
 		await page.click('.eventContainer .more-btn');
 		const eventDetails = await page.$('.eventContainer .eventDetails');
 		expect(eventDetails).toBeDefined();
-	}); */
-
-	/* 	test('User can collapse an event to hide details', async () => {
+	});
+	test('User can collapse an event to hide details', async () => {
 		await page.click('.eventContainer .more-btn');
 		const eventDetails = await page.$('.eventContainer .eventDetails');
 		expect(eventDetails).toBeNull();
-	}); */
+	});
 });
