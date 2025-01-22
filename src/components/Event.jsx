@@ -18,7 +18,7 @@ const Event = ({ event }) => {
 			: 'End time not available';
 
 	return (
-		<div>
+		<div className="eventContainer">
 			<div className="eventInfo">
 				<h2>{event.summary}</h2>
 				<p>Location: {event.location || 'No location provided'}</p>

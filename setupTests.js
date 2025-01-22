@@ -1,6 +1,7 @@
 import '@testing-library/jest-dom';
 import 'jest-localstorage-mock';
 import fetchMock from 'jest-fetch-mock';
+
 fetchMock.enableMocks();
 
 const MESSAGES_TO_IGNORE = [
@@ -15,3 +16,10 @@ console.error = (...args) => {
 	const ignoreMessage = MESSAGES_TO_IGNORE.find((message) => args.toString().includes(message));
 	if (!ignoreMessage) originalError(...args);
 };
+
+if (typeof window !== 'undefined') {
+	global.WebSocket = WebSocket;
+} else {
+}
+
+jest.setTimeout(30000);
