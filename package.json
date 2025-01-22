@@ -1,0 +1,48 @@
+{
+	"name": "meet",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"scripts": {
+		"dev": "vite",
+		"build": "vite build",
+		"lint": "eslint ",
+		"preview": "vite preview",
+		"test": "NODE_NO_WARNINGS=1 jest"
+	},
+	"dependencies": {
+		"glob": "^11.0.1",
+		"jest-fetch-mock": "^3.0.3",
+		"lru-cache": "^11.0.2",
+		"prop-types": "^15.8.1",
+		"react": "^18.3.1",
+		"react-dom": "^18.3.1"
+	},
+	"devDependencies": {
+		"@babel/eslint-parser": "^7.26.5",
+		"@babel/preset-env": "^7.26.0",
+		"@babel/preset-react": "^7.26.3",
+		"@eslint/js": "^9.18.0",
+		"@testing-library/jest-dom": "^6.6.3",
+		"@testing-library/react": "^16.1.0",
+		"@testing-library/user-event": "^14.5.2",
+		"@vitejs/plugin-react-swc": "^3.5.0",
+		"babel-jest": "^29.7.0",
+		"eslint": "^9.18.0",
+		"eslint-plugin-jest": "^28.11.0",
+		"eslint-plugin-react": "^7.37.4",
+		"eslint-plugin-react-hooks": "^5.0.0",
+		"eslint-plugin-react-refresh": "^0.4.14",
+		"globals": "^15.14.0",
+		"identity-obj-proxy": "^3.0.0",
+		"jest": "^29.7.0",
+		"jest-cucumber": "^4.5.0",
+		"jest-environment-jsdom": "^29.7.0",
+		"jest-localstorage-mock": "^2.4.26",
+		"puppeteer": "^7.1.0",
+		"puppeteer-core": "^7.1.0",
+		"reflect-metadata": "^0.2.2",
+		"vite": "^6.0.1",
+		"ws": "^8.18.0"
+	}
+}
