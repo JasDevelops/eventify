@@ -21,9 +21,11 @@ const Event = ({ event }) => {
 		<div className="eventContainer">
 			<div className="eventInfo">
 				<h2>{event.summary}</h2>
-				<p>Location: {event.location || 'No location provided'}</p>
-				<p>Start: {startTime}</p>
-				<p>End: {endTime}</p>
+				<div className="eventLess">
+					<p>Location: {event.location || 'No location provided'}</p>
+					<p>Start: {startTime}</p>
+					<p>End: {endTime}</p>
+				</div>
 			</div>
 			<button
 				data-testid={`more-btn-${event.id}`}

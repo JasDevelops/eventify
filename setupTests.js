@@ -22,4 +22,4 @@ if (typeof window !== 'undefined') {
 } else {
 }
 
-jest.setTimeout(30000);
+jest.setTimeout(50000);

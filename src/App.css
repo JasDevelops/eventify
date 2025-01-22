@@ -93,11 +93,19 @@
 	width: calc(50% - 10px);
 	box-sizing: border-box;
 }
-.eventInfo {
+
+.eventInfo h2 {
+	color: #fff;
+}
+.eventLess {
 	background-color: #fff;
 	border-radius: 2px;
 	padding: 20px;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	margin: 20px auto;
+}
+.eventLess strong {
+	font-weight: 500;
 }
 .event-item div {
 	text-align: center;

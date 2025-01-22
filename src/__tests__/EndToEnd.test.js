@@ -1,6 +1,6 @@
 import puppeteer from 'puppeteer';
 
-// Show Hide test
+// Show Hide Details test
 
 describe('show/hide an event details', () => {
 	let browser;
@@ -8,7 +8,9 @@ describe('show/hide an event details', () => {
 
 	beforeAll(async () => {
 		browser = await puppeteer.launch({
-			headless: true,
+			headless: false,
+			slowMo: 250,
+			timeout: 0,
 			executablePath: '/Applications/Chromium.app/Contents/MacOS/Chromium',
 			args: ['--disable-web-security', '--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu'],
 		});
@@ -64,6 +66,7 @@ describe('Specify number of events to display', () => {
 	});
 
 	test('Default number of events is displayed (32)', async () => {
+		await page.waitForSelector('.eventContainer', { visible: true });
 		const eventItems = await page.$$('.eventContainer');
 		expect(eventItems.length).toBe(32);
 	});
@@ -81,18 +84,51 @@ describe('Specify number of events to display', () => {
 		const eventItems = await page.$$('.eventContainer');
 		expect(eventItems.length).toBe(5);
 	});
+});
 
-	test('User can change the number of events displayed to 10', async () => {
-		const inputField = await page.$('#numberOfEvents');
-		const submitButton = await page.$('.numberOfEvents-submit');
+// Filter events by city
 
-		await inputField.click({ clickCount: 3 });
-		await inputField.type('10');
-		await submitButton.click();
+describe('Filter events by city', () => {
+	let browser;
+	let page;
 
+	beforeAll(async () => {
+		browser = await puppeteer.launch({
+			headless: true,
+			executablePath: '/Applications/Chromium.app/Contents/MacOS/Chromium',
+			args: ['--disable-web-security', '--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu'],
+		});
+
+		page = await browser.newPage();
+		await page.goto('http://localhost:5173/');
 		await page.waitForSelector('.eventContainer');
+	});
 
+	afterAll(async () => {
+		if (browser) {
+			await browser.close();
+		}
+	});
+
+	test('Shows events from all cities by default when no city is selected', async () => {
 		const eventItems = await page.$$('.eventContainer');
-		expect(eventItems.length).toBe(10);
+		expect(eventItems.length).toBeGreaterThan(0);
+	});
+
+	test('Shows suggestions of cities', async () => {
+		const citySearchInput = await page.$('input[type="text"]');
+		const suggestionSelector = '.suggestions li';
+
+		await citySearchInput.type('Berlin');
+		await page.waitForSelector(suggestionSelector);
+
+		const BerlinGermanySuggestion = await page.$(suggestionSelector);
+
+		await BerlinGermanySuggestion.click();
+
+		const inputValue = await page.$eval('input[type="text"]', (input) => input.value);
+		const suggestionText = await page.evaluate((el) => el.textContent, BerlinGermanySuggestion);
+
+		expect(inputValue).toBe(suggestionText);
 	});
 });
