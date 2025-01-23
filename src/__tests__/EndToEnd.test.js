@@ -11,7 +11,6 @@ describe('show/hide an event details', () => {
 			headless: false,
 			slowMo: 250,
 			timeout: 0,
-			// args: ['--disable-web-security', '--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu'],
 		});
 
 		page = await browser.newPage();
@@ -24,17 +23,17 @@ describe('show/hide an event details', () => {
 		}
 	});
 
-	test('An event element is collapsed by default', async () => {
+	it('An event element is collapsed by default', async () => {
 		const eventDetails = await page.$('.eventContainer .eventDetails');
 		expect(eventDetails).toBeNull();
 	});
 
-	test('User can expand an event to see details', async () => {
+	it('User can expand an event to see details', async () => {
 		await page.click('.eventContainer .more-btn');
 		const eventDetails = await page.$('.eventContainer .eventDetails');
 		expect(eventDetails).toBeDefined();
 	});
-	test('User can collapse an event to hide details', async () => {
+	it('User can collapse an event to hide details', async () => {
 		await page.click('.eventContainer .more-btn');
 		const eventDetails = await page.$('.eventContainer .eventDetails');
 		expect(eventDetails).toBeNull();
@@ -64,13 +63,13 @@ describe('Specify number of events to display', () => {
 		}
 	});
 
-	test('Default number of events is displayed (32)', async () => {
+	it('Default number of events is displayed (32)', async () => {
 		await page.waitForSelector('.eventContainer', { visible: true });
 		const eventItems = await page.$$('.eventContainer');
-		expect(eventItems.length).toBe(32);
+		expect(eventItems).toHaveLength(32);
 	});
 
-	test('User can change the number of events displayed to 5', async () => {
+	it('User can change the number of events displayed to 5', async () => {
 		const inputField = await page.$('#numberOfEvents');
 		const submitButton = await page.$('.numberOfEvents-submit');
 
@@ -81,11 +80,11 @@ describe('Specify number of events to display', () => {
 		await page.waitForSelector('.eventContainer');
 
 		const eventItems = await page.$$('.eventContainer');
-		expect(eventItems.length).toBe(5);
+		expect(eventItems).toHaveLength(5);
 	});
 });
 
-// Filter events by city
+// Filter events by city test
 
 describe('Filter events by city', () => {
 	let browser;
@@ -109,12 +108,12 @@ describe('Filter events by city', () => {
 		}
 	});
 
-	test('Shows events from all cities by default when no city is selected', async () => {
+	it('Shows events from all cities by default when no city is selected', async () => {
 		const eventItems = await page.$$('.eventContainer');
 		expect(eventItems.length).toBeGreaterThan(0);
 	});
 
-	test('Shows suggestions of cities', async () => {
+	it('Shows suggestions of cities', async () => {
 		const citySearchInput = await page.$('input[type="text"]');
 		const suggestionSelector = '.suggestions li';
 

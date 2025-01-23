@@ -19,7 +19,6 @@ console.error = (...args) => {
 
 if (typeof window !== 'undefined') {
 	global.WebSocket = WebSocket;
-} else {
 }
 
 jest.setTimeout(50000);
