@@ -11,8 +11,7 @@ describe('show/hide an event details', () => {
 			headless: false,
 			slowMo: 250,
 			timeout: 0,
-			executablePath: '/Applications/Chromium.app/Contents/MacOS/Chromium',
-			args: ['--disable-web-security', '--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu'],
+			// args: ['--disable-web-security', '--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu'],
 		});
 
 		page = await browser.newPage();
