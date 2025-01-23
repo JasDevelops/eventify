@@ -58,6 +58,7 @@ input:focus {
 input,
 button {
 	border-radius: 50px;
+	transition: all 0.3s ease;
 }
 button {
 	padding: 12px 20px;
@@ -67,7 +68,6 @@ button {
 	background-color: #fbc353;
 	border: none;
 	cursor: pointer;
-	transition: background-color 0.3s ease;
 	box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.8);
 }
 
@@ -80,4 +80,5 @@ button:focus {
 button:active {
 	background-color: #ecbb5b;
 	box-shadow: none;
+	transform: translate(0, 0) scale(0.98);
 }

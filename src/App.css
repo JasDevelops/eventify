@@ -38,15 +38,15 @@
 .suggestions {
 	list-style-type: none;
 	padding: 0;
-	margin: 55px 0;
-	background-color: white;
-	border: 1px solid #ccc;
-	border-radius: 8px;
+	margin: 56px 0;
+	background-color: #fff;
+	border: 2px solid #eee;
+	border-radius: 3px;
 	position: absolute;
 	width: 100%;
 	max-height: 300px;
 	overflow-y: auto;
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	box-shadow: 0px 15px 25px 5px rgba(0, 0, 0, 0.75);
 	z-index: 10;
 }
 
@@ -69,7 +69,82 @@
 }
 
 /* Event Container */
+
 .event-container {
+	padding: 0;
+	margin: 0;
+	text-align: center;
+}
+
+#event-list {
+	display: grid;
+	gap: 1rem;
+	grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+	justify-content: center;
+	padding: 0;
+	margin: 20px;
+}
+.event-item {
+	display: flex;
+	flex-direction: column;
+	border: 2px solid #eee;
+	border-radius: 3px;
+	background-color: #fff;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	overflow: hidden;
+	padding: 1rem;
+	transition:
+		transform 0.2s ease,
+		box-shadow 0.2s ease;
+}
+
+.event-item:hover {
+	transform: translateY(-1px);
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.event-item h2,
+.event-item .eventLess {
+	margin-bottom: 1.5rem;
+}
+.eventLess p:first-child {
+	margin-bottom: 1rem;
+	font-weight: 500;
+}
+.eventDetails {
+	margin-top: 1.5rem;
+	color: #666;
+	text-align: justify;
+	font-weight: 300;
+}
+.event-item button {
+	box-shadow: 0 0 30px -10px rgba(0, 0, 0, 0.5);
+	background-color: #fff;
+	border: 2px solid #d81e5b;
+	color: #d81e5b;
+	padding: 5px 15px;
+	border-radius: 5px;
+	margin-top: 0.5rem;
+}
+.event-item button:hover,
+.event-item button:focus {
+	border-radius: 15px;
+}
+.event-item button:active {
+	background-color: #f9f9f9;
+}
+/* Media query */
+@media (max-width: 500px) {
+	#event-list {
+		grid-template-columns: 1fr;
+	}
+
+	.event-item {
+		margin: 0 auto;
+	}
+}
+
+/* .event-container {
 	display: flex;
 	justify-content: center;
 	align-items: flex-start;
@@ -122,9 +197,9 @@
 }
 /* Media Query */
 
-@media (max-width: 500px) {
+/* @media (max-width: 500px) {
 	.input-container {
 		flex-direction: column;
 		gap: 15px;
 	}
-}
+} */
