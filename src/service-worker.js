@@ -25,7 +25,7 @@ precacheAndRoute(self.__WB_MANIFEST);
 // are fulfilled with your index.html shell. Learn more at
 // https://developers.google.com/web/fundamentals/architecture/app-shell
 const fileExtensionRegexp = new RegExp('/[^/?]+\\.[^/]+$');
-const handler = createHandlerBoundToURL('/index.html');
+const handler = createHandlerBoundToURL('index.html');
 
 registerRoute(({ request, url }) => {
 	if (request.mode !== 'navigate') return false;

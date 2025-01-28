@@ -9,7 +9,7 @@ export default defineConfig({
 		VitePWA({
 			manifest: {
 				short_name: 'Eventify',
-				name: 'Create React App Sample',
+				name: 'Eventify',
 				icons: [
 					{
 						src: 'assets/favicon.svg',
@@ -36,7 +36,8 @@ export default defineConfig({
 						purpose: 'maskable',
 					},
 				],
-				start_url: '.',
+				id: '/',
+				start_url: '/',
 				display: 'standalone',
 				theme_color: '#f9f9f9',
 				background_color: '#331832',
