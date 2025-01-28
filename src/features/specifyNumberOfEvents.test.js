@@ -47,6 +47,7 @@ defineFeature(feature, (test) => {
 				<NumberOfEvents
 					updateNumberOfEvents={() => {}}
 					currentEventCount={32}
+					setErrorAlert={() => {}}
 				/>
 			);
 			const inputElement = numberOfEventsComponent.container.querySelector('#numberOfEvents');

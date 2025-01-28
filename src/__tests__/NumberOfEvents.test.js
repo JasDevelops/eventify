@@ -4,39 +4,37 @@ import NumberOfEvents from '../components/NumberOfEvents';
 
 describe('<NumberOfEvents />', () => {
 	let updateNumberOfEvents;
+	let setErrorAlert;
+	let container;
+	let inputElement;
+	let submitButton;
 
 	beforeEach(() => {
 		updateNumberOfEvents = jest.fn();
-	});
+		setErrorAlert = jest.fn();
 
-	it('contains a textbox with the correct role', () => {
-		const { container } = render(
+		const renderResult = render(
 			<NumberOfEvents
 				updateNumberOfEvents={updateNumberOfEvents}
 				currentEventCount={32}
+				setErrorAlert={setErrorAlert}
 			/>
 		);
-		const inputElement = container.firstChild.querySelector('input');
+		container = renderResult.container;
+		inputElement = container.querySelector('#numberOfEvents');
+		submitButton = container.querySelector('button');
+	});
+
+	it('contains a textbox with the correct role', () => {
 		expect(inputElement).toHaveAttribute('role', 'textbox');
 	});
 
 	it('default value is 32', () => {
-		const { container } = render(
-			<NumberOfEvents
-				updateNumberOfEvents={updateNumberOfEvents}
-				currentEventCount={32}
-			/>
-		);
-		const inputElement = container.firstChild.querySelector('#numberOfEvents');
 		expect(inputElement.value).toBe('32');
 	});
 
 	it('value changes when user types in it and submits', async () => {
-		const { container } = render(<NumberOfEvents updateNumberOfEvents={updateNumberOfEvents} />);
 		const user = userEvent.setup();
-		const inputElement = container.firstChild.querySelector('#numberOfEvents');
-		const submitButton = container.firstChild.querySelector('button');
-
 		expect(inputElement.value).toBe('32');
 
 		await user.clear(inputElement);
@@ -49,21 +47,33 @@ describe('<NumberOfEvents />', () => {
 	});
 
 	it('updates event count when currentEventCount prop changes', () => {
-		const { rerender, container } = render(
-			<NumberOfEvents
-				updateNumberOfEvents={updateNumberOfEvents}
-				currentEventCount={32}
-			/>
-		);
-		const inputElement = container.querySelector('#numberOfEvents');
-		expect(inputElement.value).toBe('32');
-
-		rerender(
+		const { container } = render(
 			<NumberOfEvents
 				updateNumberOfEvents={updateNumberOfEvents}
 				currentEventCount={50}
+				setErrorAlert={setErrorAlert}
 			/>
 		);
+		const inputElement = container.querySelector('#numberOfEvents');
 		expect(inputElement.value).toBe('50');
+	});
+	it('shows error alert when input value is not a valid number', async () => {
+		const user = userEvent.setup();
+		await user.clear(inputElement);
+		await user.type(inputElement, 'invalid');
+
+		await user.click(submitButton);
+
+		expect(setErrorAlert).toHaveBeenCalledWith('Please enter a valid number greater than zero.');
+	});
+
+	it('shows error alert when input value is less than or equal to zero', async () => {
+		const user = userEvent.setup();
+		await user.clear(inputElement);
+		await user.type(inputElement, '-1');
+
+		await user.click(submitButton);
+
+		expect(setErrorAlert).toHaveBeenCalledWith('Please enter a valid number greater than zero.');
 	});
 });

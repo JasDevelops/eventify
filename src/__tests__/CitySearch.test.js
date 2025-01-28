@@ -9,6 +9,9 @@ describe('<CitySearch /> component', () => {
 	let CitySearchComponent;
 
 	beforeEach(async () => {
+		setInfoAlert = jest.fn();
+		setErrorAlert = jest.fn();
+
 		const allEvents = await getEvents();
 		const allLocations = extractLocations(allEvents);
 
@@ -16,6 +19,8 @@ describe('<CitySearch /> component', () => {
 			<CitySearch
 				allLocations={allLocations}
 				onCityChange={() => {}}
+				setInfoAlert={setInfoAlert}
+				setErrorAlert={setErrorAlert}
 			/>
 		);
 	});
@@ -114,6 +119,18 @@ describe('<CitySearch /> component', () => {
 		const emptySuggestions = CitySearchComponent.container.querySelectorAll('li');
 		expect(emptySuggestions).toHaveLength(1);
 		expect(emptySuggestions[0].textContent).toBe('See all cities');
+	});
+	it('shows info alert when no matching cities are found', async () => {
+		const user = userEvent.setup();
+		const cityTextBox = CitySearchComponent.queryByRole('textbox');
+		await user.type(cityTextBox, 'NonexistentCity');
+
+		const suggestionList = CitySearchComponent.queryByRole('list');
+		expect(suggestionList).toBeInTheDocument();
+
+		expect(setInfoAlert).toHaveBeenCalledWith(
+			'We cannot find the city you are looking for. Please try another city.'
+		);
 	});
 });
 describe('<CitySearch /> integration', () => {

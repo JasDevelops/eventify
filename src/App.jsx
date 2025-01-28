@@ -4,6 +4,7 @@ import { getEvents, extractLocations } from './api';
 import CitySearch from './components/CitySearch';
 import EventList from './components/EventList';
 import NumberOfEvents from './components/NumberOfEvents';
+import { InfoAlert, ErrorAlert } from './components/Alert';
 
 import './App.css';
 
@@ -14,6 +15,8 @@ const App = () => {
 	const [eventCount, setEventCount] = useState(32);
 	const [loading, setLoading] = useState(true);
 	const [currentCity, setCurrentCity] = useState('');
+	const [infoAlert, setInfoAlert] = useState('');
+	const [errorAlert, setErrorAlert] = useState('');
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -75,14 +78,21 @@ const App = () => {
 	return (
 		<div className="App">
 			{loading && <p className="loading">Loading...</p>}
+			<div className="alerts-container">
+				{infoAlert.length ? <InfoAlert text={infoAlert} /> : null}
+				{errorAlert.length ? <ErrorAlert text={errorAlert} /> : null}
+			</div>
 			<div className="filter-container">
 				<CitySearch
 					allLocations={locations}
 					onCityChange={handleCityChange}
+					setInfoAlert={setInfoAlert}
 				/>
+
 				<NumberOfEvents
 					currentEventCount={eventCount}
 					updateNumberOfEvents={handleNumberOfEventsChange}
+					setErrorAlert={setErrorAlert}
 				/>
 			</div>
 			<EventList events={filteredEvents} />

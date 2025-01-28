@@ -24,6 +24,10 @@ h2 {
 p {
 	line-height: 130%;
 }
+.loading {
+	text-align: center;
+	font-size: larger;
+}
 a,
 .seeAllCities {
 	color: #d81e5b;

@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 
-const CitySearch = ({ allLocations, onCityChange }) => {
+const CitySearch = ({ allLocations, onCityChange, setInfoAlert }) => {
 	const [showSuggestions, setShowSuggestions] = useState(false);
 	const [query, setQuery] = useState('');
 	const [suggestions, setSuggestions] = useState([]);
@@ -14,6 +14,7 @@ const CitySearch = ({ allLocations, onCityChange }) => {
 	const handleInputChanged = (event) => {
 		const value = event.target.value;
 		let filteredLocations = [];
+		let infoText = '';
 
 		if (value) {
 			filteredLocations = allLocations.filter((location) =>
@@ -23,9 +24,13 @@ const CitySearch = ({ allLocations, onCityChange }) => {
 		if (value === '') {
 			filteredLocations = [];
 		}
+		if (filteredLocations.length === 0) {
+			infoText = 'We cannot find the city you are looking for. Please try another city.';
+		}
 
 		setQuery(value);
 		setSuggestions(filteredLocations);
+		setInfoAlert(infoText);
 		onCityChange(value);
 	};
 
@@ -34,6 +39,7 @@ const CitySearch = ({ allLocations, onCityChange }) => {
 		setQuery(value === 'See all cities' ? '' : value);
 		setShowSuggestions(false);
 		onCityChange(value === 'See all cities' ? '' : value);
+		setInfoAlert('');
 	};
 
 	useEffect(() => {
@@ -87,6 +93,7 @@ const CitySearch = ({ allLocations, onCityChange }) => {
 CitySearch.propTypes = {
 	allLocations: PropTypes.arrayOf(PropTypes.string).isRequired,
 	onCityChange: PropTypes.func.isRequired,
+	setInfoAlert: PropTypes.func.isRequired,
 };
 
 export default CitySearch;

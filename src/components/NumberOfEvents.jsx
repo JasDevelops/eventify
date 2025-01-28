@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-const NumberOfEvents = ({ updateNumberOfEvents, currentEventCount }) => {
+const NumberOfEvents = ({ updateNumberOfEvents, currentEventCount, setErrorAlert }) => {
 	const [eventCount, setEventCount] = useState(currentEventCount || 32);
 
 	useEffect(() => {
@@ -11,11 +11,36 @@ const NumberOfEvents = ({ updateNumberOfEvents, currentEventCount }) => {
 	}, [currentEventCount]);
 
 	const handleInputChange = (e) => {
-		const value = e.target.value ? Math.max(0, parseInt(e.target.value, 10)) : 0;
-		setEventCount(value);
+		const value = e.target.value;
+		if (value === '') {
+			setEventCount('');
+			setErrorAlert('');
+			return;
+		}
+
+		if (/^[0-9]*$/.test(value)) {
+			const parsedValue = Math.max(0, parseInt(value, 10));
+			setEventCount(parsedValue);
+			if (parsedValue > 0) {
+				setErrorAlert('');
+			}
+		} else {
+			setErrorAlert('Please enter a valid number greater than zero.');
+		}
 	};
 
 	const handleSubmit = () => {
+		if (eventCount === '' || isNaN(eventCount) || eventCount <= 0) {
+			setErrorAlert('Please enter a valid number greater than zero.');
+			return;
+		}
+
+		const maxEventCount = 500;
+		if (eventCount > maxEventCount) {
+			setErrorAlert(`Number of events cannot exceed ${maxEventCount}.`);
+			return;
+		}
+
 		updateNumberOfEvents(Number(eventCount));
 	};
 
@@ -50,6 +75,7 @@ const NumberOfEvents = ({ updateNumberOfEvents, currentEventCount }) => {
 NumberOfEvents.propTypes = {
 	updateNumberOfEvents: PropTypes.func.isRequired,
 	currentEventCount: PropTypes.number,
+	setErrorAlert: PropTypes.func.isRequired,
 };
 
 export default NumberOfEvents;
