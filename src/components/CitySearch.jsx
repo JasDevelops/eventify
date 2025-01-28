@@ -16,16 +16,18 @@ const CitySearch = ({ allLocations, onCityChange, setInfoAlert }) => {
 		let filteredLocations = [];
 		let infoText = '';
 
-		if (value) {
+		if (value === '') {
+			filteredLocations = [];
+		} else {
 			filteredLocations = allLocations.filter((location) =>
 				location.toUpperCase().includes(value.toUpperCase())
 			);
 		}
-		if (value === '') {
-			filteredLocations = [];
-		}
-		if (filteredLocations.length === 0) {
+		if (value && filteredLocations.length === 0) {
 			infoText = 'We cannot find the city you are looking for. Please try another city.';
+		}
+		if (value === '') {
+			infoText = '';
 		}
 
 		setQuery(value);
