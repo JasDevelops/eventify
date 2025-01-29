@@ -30,7 +30,8 @@ const CityEventsChart = ({ allLocations, events }) => {
 		<ResponsiveContainer
 			width="99%"
 			height={400}>
-			<ScatterChart margin={{ top: 100, right: 20, left: 20, bottom: 100 }}>
+			<p>Events by city:</p>
+			<ScatterChart margin={{ top: 20, bottom: 100 }}>
 				<CartesianGrid />
 				<XAxis
 					type="category"

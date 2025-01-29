@@ -152,6 +152,18 @@
 	display: grid;
 	gap: 20px;
 	grid-template-columns: 1fr 1fr;
+	margin: 50px auto;
+	max-width: 95%;
+	align-items: center;
+}
+.charts-container p {
+	color: #999;
+	font-weight: 200;
+	text-align: center;
+	font-style: italic;
+}
+.recharts-responsive-container {
+	margin: 25px auto;
 }
 /* Scatterplot */
 .recharts-cartesian-grid line {

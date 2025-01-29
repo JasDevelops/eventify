@@ -1,11 +1,11 @@
 import { useState, useEffect, useCallback } from 'react';
-import { PieChart, Pie, ResponsiveContainer, Cell, Tooltip } from 'recharts';
+import { PieChart, Pie, ResponsiveContainer, Cell, Tooltip, Legend } from 'recharts';
 import PropTypes from 'prop-types';
 
 const EventGenresChart = ({ events }) => {
 	const [data, setData] = useState([]);
 	const [genres, setGenres] = useState([]);
-	const COLORS = ['#fbc353', '#d81e5b', '#6a4c8c', '#ea4752', '#1d3557'];
+	const COLORS = ['#fbc353', '#d81e5b', '#7E3C7E', '#ea4752', '#861b47'];
 
 	const getGenres = useCallback(() => {
 		const genreSet = new Set();
@@ -51,7 +51,7 @@ const EventGenresChart = ({ events }) => {
 
 	const renderCustomizedLabel = ({ cx, cy, midAngle, outerRadius, percent, index }) => {
 		const RADIAN = Math.PI / 180;
-		const radius = outerRadius;
+		const radius = outerRadius * 1.18;
 		const x = cx + radius * Math.cos(-midAngle * RADIAN) * 1.07;
 		const y = cy + radius * Math.sin(-midAngle * RADIAN) * 1.07;
 		return percent ? (
@@ -70,15 +70,15 @@ const EventGenresChart = ({ events }) => {
 		<ResponsiveContainer
 			width="99%"
 			height={400}>
+			<p>Topic distribution:</p>
 			<PieChart>
 				<Tooltip />
 				<Pie
 					data={data}
 					dataKey="value"
 					nameKey="name"
-					outerRadius={150}
-					fill="#f9f9f9"
-					labelLine={false}
+					outerRadius={130}
+					labelLine={true}
 					label={renderCustomizedLabel}>
 					{data.map((entry, index) => (
 						<Cell
@@ -88,6 +88,13 @@ const EventGenresChart = ({ events }) => {
 						/>
 					))}
 				</Pie>
+				<Legend
+					iconSize={20}
+					layout="horizontal"
+					verticalAlign="bottom"
+					align="center"
+					formatter={(value) => <span style={{ color: '#f9f9f9' }}>{value}</span>}
+				/>
 			</PieChart>
 		</ResponsiveContainer>
 	);
