@@ -54,7 +54,7 @@ export const removeQuery = () => {
 	}
 };
 
-export const getEvents = async () => {
+/* export const getEvents = async () => {
 	if (window.location.href.startsWith('http://localhost')) {
 		return mockData;
 	}
@@ -76,6 +76,58 @@ export const getEvents = async () => {
 			return [];
 		}
 	}
+	return [];
+}; */
+export const getEvents = async () => {
+	if (!navigator.onLine) {
+		const events = localStorage.getItem('lastEvents');
+		console.warn('User is offline. Using cached events.');
+		return events ? JSON.parse(events) : [];
+	}
+
+	if (window.location.href.startsWith('http://localhost')) {
+		return mockData;
+	}
+	const token = await getAccessToken();
+	if (token) {
+		removeQuery();
+
+		const url =
+			'https://2t7qhk7s68.execute-api.eu-central-1.amazonaws.com/dev/api/get-events' + '/' + token;
+
+		try {
+			const response = await fetch(url);
+
+			if (response.ok) {
+				const result = await response.json();
+
+				if (result && result.events) {
+					localStorage.setItem('lastEvents', JSON.stringify(result.events));
+					return result.events;
+				} else {
+					return [];
+				}
+			} else {
+				console.warn('Response not OK. Falling back to offline data.');
+				const cachedEvents = localStorage.getItem('lastEvents');
+				if (cachedEvents) {
+					return JSON.parse(cachedEvents);
+				}
+				return [];
+			}
+		} catch (error) {
+			console.error('Error fetching events:', error);
+
+			const cachedEvents = localStorage.getItem('lastEvents');
+			if (cachedEvents) {
+				console.warn('Using cached events due to fetch error.');
+				return JSON.parse(cachedEvents);
+			}
+
+			return [];
+		}
+	}
+
 	return [];
 };
 

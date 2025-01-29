@@ -7,10 +7,12 @@ import CitySearch from '../components/CitySearch';
 
 describe('<CitySearch /> component', () => {
 	let CitySearchComponent;
+	let setInfoAlert;
+	let ErrorAlert;
 
 	beforeEach(async () => {
 		setInfoAlert = jest.fn();
-		setErrorAlert = jest.fn();
+		ErrorAlert = jest.fn();
 
 		const allEvents = await getEvents();
 		const allLocations = extractLocations(allEvents);
@@ -20,7 +22,7 @@ describe('<CitySearch /> component', () => {
 				allLocations={allLocations}
 				onCityChange={() => {}}
 				setInfoAlert={setInfoAlert}
-				setErrorAlert={setErrorAlert}
+				ErrorAlert={ErrorAlert}
 			/>
 		);
 	});

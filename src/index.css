@@ -27,6 +27,8 @@ p {
 .loading {
 	text-align: center;
 	font-size: larger;
+	color: #fbc353;
+	margin: 25px 0;
 }
 a,
 .seeAllCities {
