@@ -62,7 +62,7 @@ export default defineConfig({
 			workbox: {
 				runtimeCaching: [
 					{
-						urlPattern: /\/.*\.png$/, // Example pattern for caching png images
+						urlPattern: /\/.*\.(png|svg)$/,
 						handler: 'StaleWhileRevalidate',
 						options: {
 							cacheName: 'images',
