@@ -5,6 +5,8 @@ import CitySearch from './components/CitySearch';
 import EventList from './components/EventList';
 import NumberOfEvents from './components/NumberOfEvents';
 import CityEventsChart from './components/CityEventsChart';
+import EventGenresChart from './components/EventGenresChart';
+
 import { InfoAlert, ErrorAlert, WarningAlert } from './components/Alert';
 
 import './App.css';
@@ -105,10 +107,13 @@ const App = () => {
 					setErrorAlert={setErrorAlert}
 				/>
 			</div>
-			<CityEventsChart
-				allLocations={locations}
-				events={filteredEvents}
-			/>
+			<div className="charts-container">
+				<EventGenresChart events={filteredEvents} />
+				<CityEventsChart
+					allLocations={locations}
+					events={filteredEvents}
+				/>
+			</div>
 			<EventList events={filteredEvents} />
 		</div>
 	);
