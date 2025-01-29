@@ -4,6 +4,7 @@ import { getEvents, extractLocations } from './api';
 import CitySearch from './components/CitySearch';
 import EventList from './components/EventList';
 import NumberOfEvents from './components/NumberOfEvents';
+import CityEventsChart from './components/CityEventsChart';
 import { InfoAlert, ErrorAlert, WarningAlert } from './components/Alert';
 
 import './App.css';
@@ -104,6 +105,10 @@ const App = () => {
 					setErrorAlert={setErrorAlert}
 				/>
 			</div>
+			<CityEventsChart
+				allLocations={locations}
+				events={filteredEvents}
+			/>
 			<EventList events={filteredEvents} />
 		</div>
 	);

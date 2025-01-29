@@ -21,4 +21,10 @@ if (typeof window !== 'undefined') {
 	global.WebSocket = WebSocket;
 }
 
-jest.setTimeout(50000);
+jest.setTimeout(30000);
+
+global.ResizeObserver = class {
+	observe() {}
+	unobserve() {}
+	disconnect() {}
+};

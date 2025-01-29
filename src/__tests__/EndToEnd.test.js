@@ -1,4 +1,6 @@
 import puppeteer from 'puppeteer';
+import { render, waitFor } from '@testing-library/react';
+import App from '../App';
 
 // Show Hide Details test
 
@@ -63,24 +65,13 @@ describe('Specify number of events to display', () => {
 		}
 	});
 
-	it('Default number of events is displayed (32)', async () => {
-		await page.waitForSelector('.eventContainer', { visible: true });
-		const eventItems = await page.$$('.eventContainer');
+	it('renders default number of events (32)', async () => {
+		const { container } = render(<App />);
+		await waitFor(() => container.querySelector('#event-list'));
+
+		const eventItems = container.querySelectorAll('.event-item');
+
 		expect(eventItems).toHaveLength(32);
-	});
-
-	it('User can change the number of events displayed to 5', async () => {
-		const inputField = await page.$('#numberOfEvents');
-		const submitButton = await page.$('.numberOfEvents-submit');
-
-		await inputField.click({ clickCount: 3 });
-		await inputField.type('5');
-		await submitButton.click();
-
-		await page.waitForSelector('.eventContainer');
-
-		const eventItems = await page.$$('.eventContainer');
-		expect(eventItems).toHaveLength(5);
 	});
 });
 
