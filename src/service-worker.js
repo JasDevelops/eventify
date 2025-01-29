@@ -37,14 +37,11 @@ registerRoute(({ request, url }) => {
 registerRoute(
 	({ url }) =>
 		url.origin === self.location.origin &&
+		url.pathname.startsWith('/assets/') &&
 		(url.pathname.endsWith('.png') || url.pathname.endsWith('.svg')),
 	new StaleWhileRevalidate({
 		cacheName: 'images',
-		plugins: [
-			// Ensure that once this runtime cache reaches a maximum size the
-			// least-recently used images are removed.
-			new ExpirationPlugin({ maxEntries: 50 }),
-		],
+		plugins: [new ExpirationPlugin({ maxEntries: 50 })],
 	})
 );
 
