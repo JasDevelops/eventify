@@ -5,13 +5,11 @@ class Alert extends Component {
 	constructor(props) {
 		super(props);
 		this.color = null;
-		this.bgColor = null;
 	}
 
 	getStyle = () => {
 		return {
 			color: this.color,
-			backgroundColor: this.bgColor,
 			borderWidth: '2px',
 			borderStyle: 'solid',
 			fontWeight: '600',
@@ -36,22 +34,19 @@ class Alert extends Component {
 class InfoAlert extends Alert {
 	constructor(props) {
 		super(props);
-		this.color = 'rgb(49, 133, 252)';
-		this.bgColor = 'rgb(235, 250, 255)';
+		this.color = 'rgb(97, 212, 249)';
 	}
 }
 class ErrorAlert extends Alert {
 	constructor(props) {
 		super(props);
-		this.color = 'rgb(223, 59, 87)';
-		this.bgColor = 'rgb(252, 237, 240)';
+		this.color = 'rgb(254, 74, 131)';
 	}
 }
 class WarningAlert extends Alert {
 	constructor(props) {
 		super(props);
-		this.color = 'rgb(251, 195, 83)';
-		this.bgColor = 'rgb(254, 248, 235)';
+		this.color = 'rgb(101, 194, 58)';
 	}
 }
 
