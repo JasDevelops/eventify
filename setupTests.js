@@ -23,8 +23,19 @@ if (typeof window !== 'undefined') {
 
 jest.setTimeout(30000);
 
-global.ResizeObserver = class {
-	observe() {}
-	unobserve() {}
-	disconnect() {}
-};
+const { ResizeObserver } = window;
+
+beforeEach(() => {
+	//@ts-ignore
+	delete window.ResizeObserver;
+	window.ResizeObserver = jest.fn().mockImplementation(() => ({
+		observe: jest.fn(),
+		unobserve: jest.fn(),
+		disconnect: jest.fn(),
+	}));
+});
+
+afterEach(() => {
+	window.ResizeObserver = ResizeObserver;
+	jest.restoreAllMocks();
+});
