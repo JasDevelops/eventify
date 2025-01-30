@@ -2,24 +2,39 @@
 
 ## Project Overview
 
-**Eventify** is a serverless, progressive web application (PWA) built with React.
+**Eventify** is a serverless, Progressive Web Application (PWA) built with React.
 
-Built using a **Test-Driven Development (TDD)** approach, Eventify ensures high-quality, well-tested code, with both online and offline capabilities for a seamless user experience.
+Built using a **Test-Driven Development (TDD)** approach, Eventify offers online and offline capabilities for a seamless user experience.
 
 ## Features
 
-- **Event Search by City**: Users can search for events based on the city, making it easy to find events in their location.
-- **Event Data Visualization**:
-  - **Pie Chart**: Displays the popularity of different event genres.
-- **Progressive Web App (PWA)**:
-  - Offline functionality for viewing event data without an internet connection.
-  - **Add to Home Screen** prompt for easy access.
-- **Serverless Backend**: No backend maintenance required, fully scalable, and cost-effective.
-- **Responsive Design**: Works seamlessly across different devices (desktop, mobile, tablet).
+- **Event Search by City:** Users can find events based on specific city searches
+- **Data Visualization:**
+  - _Chart of Events per city (Scatterplot):_ Displays the number of events in each city.
+  - _Chart of Event Topics (Piechart):_ Shows the amount different event topics.
+- **Offline functionality:** Access app via previously cached data when offline.
+- **Add to Home Screen:** Easily install the app on mobile devices for quick access.
 
-## Architectural Diagram
+## Architectural Overview
+
+**Serverless Backend**: Uses AWS Lambda functions for authorization and data retrieval (via the Google Calendar API).
+**Progressive Web App:** Leverages a service worker for offline use and a prompt for adding the app to the home screen.
+**Responsive Front-End:** React-based UI optimized for desktop, mobile, and tablet screens.
 
 ![Architectural Diagram](public/assets/diagram-1.jpg)
+
+## Technology Used
+
+**React** (front-end framework)
+**Node.js & npm** (runtime and package manager)
+**AWS Lambda** (serverless functions for backend)
+**Google Calendar API** (event data retrieval)
+**OAuth2** (authentication flow)
+**Jest/Cucumber** (testing frameworks for TDD)
+**Git & GitHub** (version control and hosting)
+**Vercel** (deployment)
+**Service Workers** (offline capabilities)
+**Recharts** (data visualization library)
 
 ## User stories: Features & Scenarios (Gherkin)
 
@@ -161,3 +176,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 **React**
 **Progressive Web Apps**
 **Test-Driven Development**
+**My tutor and mentor at CareerFoundry**

@@ -54,30 +54,6 @@ export const removeQuery = () => {
 	}
 };
 
-/* export const getEvents = async () => {
-	if (window.location.href.startsWith('http://localhost')) {
-		return mockData;
-	}
-	const token = await getAccessToken();
-	if (token) {
-		removeQuery();
-		const url =
-			'https://2t7qhk7s68.execute-api.eu-central-1.amazonaws.com/dev/api/get-events' + '/' + token;
-		try {
-			const response = await fetch(url);
-			if (!response.ok) {
-				return [];
-			}
-			const result = await response.json();
-			return result.events || [];
-		} catch (error) {
-			console.error('Error fetching events:', error);
-
-			return [];
-		}
-	}
-	return [];
-}; */
 export const getEvents = async () => {
 	if (!navigator.onLine) {
 		const events = localStorage.getItem('lastEvents');

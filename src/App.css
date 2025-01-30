@@ -151,10 +151,11 @@
 .charts-container {
 	display: grid;
 	gap: 20px;
-	grid-template-columns: 1fr 1fr;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 	margin: 50px auto;
 	max-width: 95%;
 	align-items: center;
+	justify-items: center;
 }
 .charts-container p {
 	color: #999;
@@ -162,8 +163,14 @@
 	text-align: center;
 	font-style: italic;
 }
+.recharts-wrapper {
+	margin: 0 auto;
+}
 .recharts-responsive-container {
 	margin: 25px auto;
+	width: 100%;
+	min-width: 0;
+	overflow: visible;
 }
 /* Scatterplot */
 .recharts-cartesian-grid line {

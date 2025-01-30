@@ -31,15 +31,15 @@ const CityEventsChart = ({ allLocations, events }) => {
 			width="99%"
 			height={400}>
 			<p>Events by city:</p>
-			<ScatterChart margin={{ top: 20, bottom: 100 }}>
+			<ScatterChart margin={{ top: 20, bottom: 100, left: 10, right: 10 }}>
 				<CartesianGrid />
 				<XAxis
 					type="category"
 					dataKey="city"
 					name="City"
-					angle={60}
+					angle={90}
 					interval={0}
-					tick={{ dx: 20, dy: 40, fontSize: 14, fill: '#f9f9f9' }}
+					tick={{ dx: 20, dy: 40, fontSize: 12, fill: '#f9f9f9' }}
 				/>
 				<YAxis
 					type="number"

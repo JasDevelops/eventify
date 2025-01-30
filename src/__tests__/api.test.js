@@ -1,163 +1,185 @@
 import {
+	getEvents,
 	getAccessToken,
 	getToken,
-	getEvents,
+	checkToken,
 	extractLocations,
 	removeQuery,
-	checkToken,
 } from '../api';
-
-jest.mock('../api', () => ({
-	getEvents: jest.fn().mockResolvedValue([{ location: 'Mock Location' }]),
-	extractLocations: jest.fn(),
-	removeQuery: jest.fn(),
-	checkToken: jest.fn(),
-	getToken: jest.fn(),
-	getAccessToken: jest.fn(),
-}));
+import mockData from '../mock-data';
 
 beforeAll(() => {
 	global.localStorage = {
 		setItem: jest.fn(),
-		getItem: jest.fn().mockReturnValue('mock-access-token'),
+		getItem: jest.fn(),
 		removeItem: jest.fn(),
 		clear: jest.fn(),
 	};
-
 	global.history.pushState = jest.fn();
 });
 
 beforeEach(() => {
-	localStorage.clear();
-	jest.spyOn(localStorage, 'setItem');
-	jest.spyOn(localStorage, 'getItem').mockReturnValue('mock-access-token');
-	jest.spyOn(localStorage, 'removeItem');
-	jest.spyOn(localStorage, 'clear');
-	jest.spyOn(global, 'fetch').mockImplementation(() =>
-		Promise.resolve({
-			ok: true,
-			json: () => Promise.resolve({ access_token: 'mock-access-token' }),
-		})
-	);
+	jest.clearAllMocks();
+	jest.spyOn(global, 'fetch').mockResolvedValue({
+		ok: true,
+		json: () => Promise.resolve({ access_token: 'mock-access-token' }),
+	});
+	Object.defineProperty(window.navigator, 'onLine', { writable: true, value: true });
 });
 
-describe('API functions', () => {
-	describe('getEvents', () => {
-		it('should fetch events successfully', async () => {
-			const mockEvents = [{ location: 'Mock Location' }];
-			getEvents.mockResolvedValue(mockEvents);
-
-			const events = await getEvents();
-
-			expect(events).toEqual(mockEvents);
-			expect(getEvents).toHaveBeenCalledTimes(1);
-		});
-
-		it('should return an empty array when no locations are found', async () => {
-			const noLocationData = [{ location: '' }];
-			getEvents.mockResolvedValue(noLocationData);
-
-			extractLocations.mockImplementation((events) => events.filter((event) => event.location));
-			const events = await getEvents();
-			const locations = extractLocations(events);
-
-			expect(locations).toEqual([]);
-			expect(extractLocations).toHaveBeenCalledWith(events);
-		});
-
-		it('should handle errors when fetching events fails', async () => {
-			getAccessToken.mockResolvedValue('mock-token');
-			global.fetch.mockResolvedValueOnce({
-				ok: false,
-				status: 500,
-				json: () => Promise.resolve({}),
-			});
-			getEvents.mockResolvedValueOnce([]);
-
-			const events = await getEvents();
-
-			expect(events).toEqual([]);
-		});
+describe('extractLocations', () => {
+	it('returns an array of unique locations', () => {
+		const events = [{ location: 'Berlin' }, { location: 'London' }, { location: 'Berlin' }, {}];
+		const result = extractLocations(events);
+		expect(result).toEqual(['Berlin', 'London']);
 	});
 
-	describe('getToken', () => {
-		beforeEach(() => {
-			jest.clearAllMocks();
-			global.fetch.mockResolvedValueOnce({
-				ok: true,
-				json: jest.fn().mockResolvedValue({ access_token: 'mock-access-token' }),
-			});
-		});
-		it('should throw an error when response does not include a valid access_token', async () => {
-			const code = 'mockAuthCode';
-			global.fetch.mockResolvedValueOnce({
-				ok: true,
-				json: jest.fn().mockResolvedValue({}),
-			});
-
-			try {
-				await getToken(code);
-				throw new Error('Missing Token');
-			} catch (error) {
-				expect(error.message).toBe('Missing Token');
-			}
-		});
-
-		it('should throw an error when fetch fails (HTTP error)', async () => {
-			const code = 'mockAuthCode';
-
-			global.fetch.mockResolvedValueOnce({
-				ok: false,
-				status: 500,
-				json: jest.fn().mockResolvedValue({}),
-			});
-
-			try {
-				await getToken(code);
-				throw new Error('HTTP error! Status: 500');
-			} catch (error) {
-				expect(error.message).toBe('HTTP error! Status: 500');
-			}
-		});
+	it('returns empty array if no valid locations', () => {
+		const events = [{}, { location: '' }, { something: 'No location' }];
+		const result = extractLocations(events);
+		expect(result).toEqual([]);
 	});
-	describe('checkToken', () => {
-		it('should throw an error when the token is invalid', async () => {
-			checkToken.mockRejectedValueOnce(new Error('invalid_token'));
-			const invalidToken = 'invalidMockToken';
-			await expect(checkToken(invalidToken)).rejects.toThrow('invalid_token');
+});
+
+describe('removeQuery', () => {
+	it('should remove query parameters from the URL', () => {
+		Object.defineProperty(window, 'location', {
+			writable: true,
+			value: {
+				protocol: 'http:',
+				host: 'example.com',
+				pathname: '',
+				href: 'http://example.com',
+			},
 		});
+		removeQuery();
+		expect(window.location.href).toBe('http://example.com');
+	});
+});
 
-		it('should return the token information when the token is valid', async () => {
-			checkToken.mockResolvedValue({ user_id: 'mock-user-id' });
-
-			const mockToken = 'validMockToken';
-			const result = await checkToken(mockToken);
-
-			expect(result).toEqual({ user_id: 'mock-user-id' });
+describe('getEvents', () => {
+	it('returns mockData if on localhost', async () => {
+		Object.defineProperty(window, 'location', {
+			writable: true,
+			value: { href: 'http://localhost:3000' },
 		});
-
-		it('should throw an error when the token is invalid', async () => {
-			checkToken.mockRejectedValue(new Error('invalid_token'));
-
-			const invalidToken = 'invalidMockToken';
-			await expect(checkToken(invalidToken)).rejects.toThrow('invalid_token');
-		});
+		const events = await getEvents();
+		expect(events).toEqual(mockData);
 	});
 
-	describe('removeQuery', () => {
-		it('should remove the query parameters from the URL', () => {
-			const initialUrl = 'http://example.com/?code=code';
-			window.history.pushState({}, '', initialUrl);
-
-			removeQuery();
-			const newUrl = window.location.href;
-
-			expect(newUrl).not.toContain('?code=code');
-		});
+	it('returns cached events if offline', async () => {
+		Object.defineProperty(window.navigator, 'onLine', { value: false });
+		localStorage.getItem.mockReturnValue(JSON.stringify([{ location: 'Cached Berlin' }]));
+		const events = await getEvents();
+		expect(events).toEqual([{ location: 'Cached Berlin' }]);
 	});
 
-	it('should mock fetch properly', async () => {
-		await fetch('https://mockurl');
-		expect(fetch).toHaveBeenCalledTimes(1);
+	it('returns empty array if offline with no cached data', async () => {
+		Object.defineProperty(window.navigator, 'onLine', { value: false });
+		localStorage.getItem.mockReturnValue(null);
+		const events = await getEvents();
+		expect(events).toEqual([]);
+	});
+});
+
+describe('getToken', () => {
+	it('throws an error if fetch fails', async () => {
+		const code = 'mockCode';
+		fetch.mockResolvedValueOnce({
+			ok: false,
+			status: 500,
+			json: () => Promise.resolve({}),
+		});
+		await expect(getToken(code)).rejects.toThrow('Error fetching access token');
+	});
+
+	it('throws if no access_token in the response', async () => {
+		const code = 'mockCode';
+		fetch.mockResolvedValueOnce({
+			ok: true,
+			json: () => Promise.resolve({}),
+		});
+		await expect(getToken(code)).rejects.toThrow('Error fetching access token');
+	});
+
+	it('stores and returns the token if present', async () => {
+		const code = 'mockCode';
+		fetch.mockResolvedValueOnce({
+			ok: true,
+			json: () => Promise.resolve({ access_token: 'abc123' }),
+		});
+		const token = await getToken(code);
+		expect(token).toBe('abc123');
+		expect(localStorage.setItem).toHaveBeenCalledWith('access_token', 'abc123');
+	});
+});
+
+describe('checkToken', () => {
+	it('returns token info if valid', async () => {
+		fetch.mockResolvedValueOnce({
+			ok: true,
+			json: () => Promise.resolve({ user_id: 'abc' }),
+		});
+		const info = await checkToken('validToken');
+		expect(info).toEqual({ user_id: 'abc' });
+	});
+
+	it('returns error info if token invalid', async () => {
+		fetch.mockResolvedValueOnce({
+			ok: true,
+			json: () => Promise.resolve({ error: 'invalid_token' }),
+		});
+		const info = await checkToken('invalidToken');
+		expect(info).toEqual({ error: 'invalid_token' });
+	});
+});
+
+describe('getAccessToken', () => {
+	afterEach(() => {
+		delete window.location;
+	});
+
+	it('uses localStorage token if valid', async () => {
+		localStorage.getItem.mockReturnValue('mock-access-token');
+		fetch.mockResolvedValueOnce({
+			ok: true,
+			json: () => Promise.resolve({}),
+		});
+		const token = await getAccessToken();
+		expect(token).toBe('mock-access-token');
+	});
+
+	it('redirects to auth URL if no code and no token', async () => {
+		localStorage.getItem.mockReturnValue(null);
+		Object.defineProperty(window, 'location', {
+			writable: true,
+			value: {
+				href: 'https://example.com',
+				search: '',
+			},
+		});
+		fetch.mockResolvedValueOnce({
+			ok: true,
+			json: () => Promise.resolve({ authUrl: 'https://auth.example.com' }),
+		});
+		await getAccessToken();
+		expect(window.location.href).toBe('https://auth.example.com');
+	});
+
+	it('calls getToken if code is in the URL', async () => {
+		localStorage.getItem.mockReturnValue(null);
+		Object.defineProperty(window, 'location', {
+			writable: true,
+			value: {
+				href: 'https://example.com?code=abc123',
+				search: '?code=abc123',
+			},
+		});
+		fetch.mockResolvedValueOnce({
+			ok: true,
+			json: () => Promise.resolve({ access_token: 'newTokenXYZ' }),
+		});
+		const token = await getAccessToken();
+		expect(token).toBe('newTokenXYZ');
 	});
 });

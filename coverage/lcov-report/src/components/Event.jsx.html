@@ -115,36 +115,31 @@
 <a name='L50'></a><a href='#L50'>50</a>
 <a name='L51'></a><a href='#L51'>51</a>
 <a name='L52'></a><a href='#L52'>52</a>
-<a name='L53'></a><a href='#L53'>53</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L53'></a><a href='#L53'>53</a>
+<a name='L54'></a><a href='#L54'>54</a>
+<a name='L55'></a><a href='#L55'>55</a>
+<a name='L56'></a><a href='#L56'>56</a>
+<a name='L57'></a><a href='#L57'>57</a>
+<a name='L58'></a><a href='#L58'>58</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">2504x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">3452x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2504x</span>
+<span class="cline-any cline-yes">3452x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2503x</span>
+<span class="cline-any cline-yes">3451x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2503x</span>
+<span class="cline-any cline-yes">3451x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2503x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3451x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -152,7 +147,22 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -187,15 +197,19 @@ const Event = ({ event }) =&gt; {
 			: 'End time not available';
 &nbsp;
 	return (
-		&lt;div&gt;
+		&lt;div className="eventContainer"&gt;
 			&lt;div className="eventInfo"&gt;
 				&lt;h2&gt;{event.summary}&lt;/h2&gt;
-				&lt;p&gt;Location: {event.location || 'No location provided'}&lt;/p&gt;
-				&lt;p&gt;Start: {startTime}&lt;/p&gt;
-				&lt;p&gt;End: {endTime}&lt;/p&gt;
+				&lt;div className="eventLess"&gt;
+					&lt;p&gt;Location: {event.location || 'No location provided'}&lt;/p&gt;
+					&lt;p&gt;Start: {startTime}&lt;/p&gt;
+					&lt;p&gt;End: {endTime}&lt;/p&gt;
+				&lt;/div&gt;
 			&lt;/div&gt;
 			&lt;button
+				data-testid={`more-btn-${event.id}`}
 				aria-label="More or Less info"
+				className="more-btn"
 				onClick={() =&gt; setShowDetails(!showDetails)}&gt;
 				{showDetails ? 'Less info' : 'More info'}
 			&lt;/button&gt;
@@ -206,6 +220,7 @@ const Event = ({ event }) =&gt; {
 &nbsp;
 Event.propTypes = {
 	event: PropTypes.shape({
+		id: PropTypes.string.isRequired,
 		summary: PropTypes.string.isRequired,
 		location: PropTypes.string,
 		start: PropTypes.shape({
@@ -226,7 +241,7 @@ export default Event;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-01-21T03:05:44.731Z
+                at 2025-01-30T11:38:17.794Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

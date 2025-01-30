@@ -59,6 +59,7 @@ const EventGenresChart = ({ events }) => {
 				x={x}
 				y={y}
 				fill="#f9f9f9"
+				fontSize={12}
 				textAnchor={x > cx ? 'start' : 'end'}
 				dominantBaseline="central">
 				{`${genres[index]} ${(percent * 100).toFixed(0)}%`}
@@ -71,7 +72,7 @@ const EventGenresChart = ({ events }) => {
 			width="99%"
 			height={400}>
 			<p>Topic distribution:</p>
-			<PieChart>
+			<PieChart margin={{ left: 10, right: 10 }}>
 				<Tooltip />
 				<Pie
 					data={data}
@@ -89,11 +90,13 @@ const EventGenresChart = ({ events }) => {
 					))}
 				</Pie>
 				<Legend
-					iconSize={20}
+					iconSize={15}
 					layout="horizontal"
 					verticalAlign="bottom"
 					align="center"
-					formatter={(value) => <span style={{ color: '#f9f9f9' }}>{value}</span>}
+					formatter={(value) => (
+						<span style={{ color: '#eee', fontSize: '11px', fontWeight: '300' }}>{value}</span>
+					)}
 				/>
 			</PieChart>
 		</ResponsiveContainer>
