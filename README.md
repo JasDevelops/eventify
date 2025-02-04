@@ -134,7 +134,7 @@ Before you begin, make sure you have the following installed on your machine:
 
 ### Installation
 1. Clone the repository:
-   `git clone https://github.com/YourUsername/eventify.git`
+   `git clone https://github.com/JasDevelops/eventify.git`
 2. Navigate into the project directory:
    `cd eventify`
 3. Install the dependencies:
