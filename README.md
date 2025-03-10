@@ -151,12 +151,15 @@ Before you begin, make sure you have the following installed on your machine:
 - [npm](https://www.npmjs.com/) (Node package manager)
 
 ### Installation
-1. Clone the repository:
+1. **Clone the Repository**
    `git clone https://github.com/JasDevelops/eventify.git`
-2. Navigate into the project directory:
+
+2. **Navigate to Project Folder**
    `cd eventify`
-3. Install the dependencies:
-   `npm install`
+
+3. **Install Dependendencies**
+   With npm: `npm install`  
+   With yarn: `yarn install`
 
 ### Running the App
 1. To start the app locally, run the following command:
