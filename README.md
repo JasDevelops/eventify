@@ -1,19 +1,25 @@
 # Eventify - A Progressive Web App (PWA)
+
+***Eventify*** is a serverless, Progressive Web Application (PWA) built with React.
+Built using a **Test-Driven Development (TDD)** approach, Eventify offers online and offline capabilities for a seamless user experience.
+
+---
+
 ## Table of Contents
-- [Project Overview](#project-overview)
+
 - [Features](#features)
 - [Architectural Overview](#architectural-overview)
 - [Technology Used](#technology)
 - [User Stories: Features & Scenarios (Gherkin)](#user-stories)
 - [Project Setup](#project-setup)
+- [Contributing](#contributing)
 - [License](#license)
 - [Acknowledgements](#acknowledgements)
   
-## <a name="project-overview"></a>Project Overview
-**Eventify** is a serverless, Progressive Web Application (PWA) built with React.
-Built using a **Test-Driven Development (TDD)** approach, Eventify offers online and offline capabilities for a seamless user experience.
+---
 
-## <a name="features"></a>Features
+## <a name="features"></a>Features:
+
 - **Event Search by City:** Users can find events based on specific city searches
 - **Offline functionality:** Access app via previously cached data when offline.
 - **Add to Home Screen:** Easily install the app on mobile devices for quick access.
@@ -21,14 +27,20 @@ Built using a **Test-Driven Development (TDD)** approach, Eventify offers online
   - _Chart of Events per city (Scatterplot):_ Displays the number of events in each city.
   - _Chart of Event Topics (Piechart):_ Shows the amount different event topics.
 
-## <a name="architectural-overview"></a> Architectural Overview
+---
+
+## <a name="architectural-overview"></a> Architectural Overview:
+
 - **Serverless Backend**: Uses AWS Lambda functions for authorization and data retrieval (via the Google Calendar API).
 - **Progressive Web App:** Leverages a service worker for offline use and a prompt for adding the app to the home screen.
 - **Responsive Front-End:** React-based UI optimized for desktop, mobile, and tablet screens.
 
 ![Architectural Diagram](public/assets/diagram-1.jpg)
 
-## <a name="technology"></a> Technology Used
+---
+
+## <a name="technology"></a> Technology Used:
+
 - **React** (front-end framework)
 - **Node.js & npm** (runtime and package manager)
 - **AWS Lambda** (serverless functions for backend)
@@ -40,7 +52,10 @@ Built using a **Test-Driven Development (TDD)** approach, Eventify offers online
 - **Service Workers** (offline capabilities)
 - **Recharts** (data visualization library)
 
+---
+
 ## <a name="user-stories"></a> User stories: Features & Scenarios (Gherkin)
+
 ### Feature 1: Filter Events By City
 - As a user,  
   I should be able to filter events by city,  
@@ -126,7 +141,10 @@ Built using a **Test-Driven Development (TDD)** approach, Eventify offers online
 - **When** I navigate to the charts section,  
 - **Then** I should see a chart displaying the number of upcoming events in each city.
 
-## <a name="project-setup"></a> Project Setup
+---
+
+## <a name="project-setup"></a> Project Setup:
+
 ### Prerequisites
 Before you begin, make sure you have the following installed on your machine:
 - [Node.js](https://nodejs.org/) (v16 or higher)
@@ -145,10 +163,30 @@ Before you begin, make sure you have the following installed on your machine:
    `npm start`
    This will open the app in your browser at http://localhost:5173.
 
-## <a name="license"></a> License
-This project is licensed under the MIT License - see the LICENSE file for details.
+---
+
+## <a name="contributing"></a> Contributing:
+
+You are very welcome to contribute!
+
+1. Fork the repository.
+2. Create a feature branch: `git checkout -b feature-branch`.
+3. Commit your changes: `git commit -m 'Add new feature'`.
+4. Push the branch: `git push origin feature-branch`.
+5. Submit a pull request.
+
+Please follow the code formatting guidelines and include tests for new features where applicable.
+
+---
+
+## <a name="license"></a> License:
+
+This project is licensed under the Apache License. See the [License](./LICENSE) file for details.
+
+---
 
 ## <a name="acknowledgements"></a> Acknowledgements
+
 - **Google Calendar API**
 - **React**
 - **Progressive Web Apps**
